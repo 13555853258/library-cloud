@@ -25,6 +25,21 @@ services:
       retries: 15
     restart: unless-stopped
 
+  mysql-data-repair:
+    image: mysql:8.0
+    environment:
+      MYSQL_PWD: ${MYSQL_ROOT_PASSWORD:-Library@2026}
+    volumes:
+      - ./repair-demo-data.sql:/repair/repair-demo-data.sql:ro
+    depends_on:
+      mysql:
+        condition: service_healthy
+    command:
+      - sh
+      - -c
+      - mysql --protocol=TCP -h mysql -uroot --default-character-set=utf8mb4 library_cloud < /repair/repair-demo-data.sql
+    restart: "no"
+
   redis:
     image: redis:7-alpine
     ports:
@@ -61,6 +76,8 @@ services:
     depends_on:
       mysql:
         condition: service_healthy
+      mysql-data-repair:
+        condition: service_completed_successfully
       redis:
         condition: service_healthy
       nacos:
