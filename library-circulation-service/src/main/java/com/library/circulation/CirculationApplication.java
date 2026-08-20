@@ -1,0 +1,1 @@
+package com.library.circulation; import org.springframework.boot.*; import org.springframework.boot.autoconfigure.*; @SpringBootApplication(scanBasePackages={"com.library.circulation","com.library.common"}) public class CirculationApplication{public static void main(String[]a){SpringApplication.run(CirculationApplication.class,a);}}

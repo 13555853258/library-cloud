@@ -1,0 +1,1 @@
+package com.library.system; import com.baomidou.mybatisplus.core.mapper.BaseMapper; import org.apache.ibatis.annotations.Mapper; @Mapper public interface BorrowRuleMapper extends BaseMapper<BorrowRule>{}

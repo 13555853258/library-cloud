@@ -1,0 +1,1 @@
+package com.library.system; import org.springframework.boot.*; import org.springframework.boot.autoconfigure.*; @SpringBootApplication(scanBasePackages={"com.library.system","com.library.common"}) public class SystemApplication{public static void main(String[]a){SpringApplication.run(SystemApplication.class,a);}}

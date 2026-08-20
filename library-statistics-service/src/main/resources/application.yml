@@ -1,0 +1,2 @@
+server: {port: 8106}
+spring: {application: {name: library-statistics-service}, datasource: {url: 'jdbc:mysql://${MYSQL_HOST:localhost}:${MYSQL_PORT:3307}/library_cloud?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai', username: root, password: '${MYSQL_PASSWORD:Library@2026}'}, cloud: {nacos: {discovery: {server-addr: '${NACOS_ADDR:localhost:8848}'}}}}

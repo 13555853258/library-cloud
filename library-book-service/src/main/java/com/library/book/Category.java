@@ -1,0 +1,2 @@
+package com.library.book; import com.baomidou.mybatisplus.annotation.*; import lombok.Data; import java.time.LocalDateTime; @Data @TableName("book_category") public class Category{@TableId(type=IdType.AUTO)private Long id;private String name;private String code;private Long parentId;private Integer sortNo;private Integer status;private LocalDateTime createdAt;@TableLogic private Integer deleted;}
+

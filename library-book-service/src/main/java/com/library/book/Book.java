@@ -1,0 +1,3 @@
+package com.library.book; import com.baomidou.mybatisplus.annotation.*; import lombok.Data; import java.math.BigDecimal; import java.time.*;
+@Data @TableName("book") public class Book{@TableId(type=IdType.AUTO)private Long id;private String isbn;private String title;private Long categoryId;private Long publisherId;private String authorName;private LocalDate publishDate;private BigDecimal price;private String coverUrl;private String description;private String location;private Integer totalCopies;private Integer availableCopies;private Integer borrowCount;private Integer status;private LocalDateTime createdAt;private LocalDateTime updatedAt;@TableLogic private Integer deleted;}
+

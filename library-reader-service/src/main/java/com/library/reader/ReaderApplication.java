@@ -1,0 +1,1 @@
+package com.library.reader; import org.springframework.boot.*; import org.springframework.boot.autoconfigure.*; @SpringBootApplication(scanBasePackages={"com.library.reader","com.library.common"}) public class ReaderApplication{public static void main(String[]a){SpringApplication.run(ReaderApplication.class,a);}}

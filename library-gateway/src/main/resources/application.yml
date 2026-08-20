@@ -1,0 +1,54 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: library-gateway
+
+  cloud:
+    nacos:
+      discovery:
+        server-addr: "${NACOS_ADDR:localhost:8848}"
+
+    gateway:
+      globalcors:
+        cors-configurations:
+          "[/**]":
+            allowed-origin-patterns:
+              - "*"
+            allowed-methods:
+              - "*"
+            allowed-headers:
+              - "*"
+            allow-credentials: true
+
+      routes:
+        - id: auth
+          uri: lb://library-auth-service
+          predicates:
+            - Path=/api/auth/**,/api/users/**
+
+        - id: book
+          uri: lb://library-book-service
+          predicates:
+            - Path=/api/books/**,/api/categories/**,/api/publishers/**,/api/copies/**
+
+        - id: reader
+          uri: lb://library-reader-service
+          predicates:
+            - Path=/api/readers/**,/api/favorites/**
+
+        - id: circulation
+          uri: lb://library-circulation-service
+          predicates:
+            - Path=/api/borrows/**,/api/reservations/**,/api/fines/**
+
+        - id: system
+          uri: lb://library-system-service
+          predicates:
+            - Path=/api/system/**
+
+        - id: statistics
+          uri: lb://library-statistics-service
+          predicates:
+            - Path=/api/statistics/**

@@ -1,0 +1,1 @@
+package com.library.statistics; import org.springframework.boot.*; import org.springframework.boot.autoconfigure.*; @SpringBootApplication(scanBasePackages={"com.library.statistics","com.library.common"}) public class StatisticsApplication{public static void main(String[]a){SpringApplication.run(StatisticsApplication.class,a);}}
