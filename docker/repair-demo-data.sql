@@ -7,6 +7,42 @@ UPDATE sys_user SET real_name = '系统管理员' WHERE username = 'admin';
 UPDATE sys_user SET real_name = '图书管理员' WHERE username = 'librarian';
 UPDATE sys_user SET real_name = '高思晗' WHERE username = 'reader';
 
+
+INSERT IGNORE INTO sys_user(username,password,real_name,phone,email,role_code) VALUES
+('reader02','Reader@123','李明','13800000004','reader02@library.com','READER'),
+('reader03','Reader@123','王芳','13800000005','reader03@library.com','READER'),
+('reader04','Reader@123','张伟','13800000006','reader04@library.com','READER'),
+('reader05','Reader@123','刘洋','13800000007','reader05@library.com','READER'),
+('reader06','Reader@123','陈晨','13800000008','reader06@library.com','READER'),
+('reader07','Reader@123','赵敏','13800000009','reader07@library.com','READER'),
+('reader08','Reader@123','周杰','13800000010','reader08@library.com','READER'),
+('reader09','Reader@123','孙悦','13800000011','reader09@library.com','READER'),
+('reader10','Reader@123','吴桐','13800000012','reader10@library.com','READER'),
+('reader11','Reader@123','郑欣','13800000013','reader11@library.com','READER'),
+('reader12','Reader@123','冯宇','13800000014','reader12@library.com','READER'),
+('reader13','Reader@123','褚涵','13800000015','reader13@library.com','READER'),
+('reader14','Reader@123','蒋宁','13800000016','reader14@library.com','READER'),
+('reader15','Reader@123','沈佳','13800000017','reader15@library.com','READER'),
+('reader16','Reader@123','韩雪','13800000018','reader16@library.com','READER');
+
+INSERT IGNORE INTO reader(user_id,reader_no,reader_type,college,major,max_borrow_count,credit_score,expire_date)
+SELECT id,'R20260001','STUDENT','软件学院','软件工程',5,100,'2028-07-01' FROM sys_user WHERE username='reader'
+UNION ALL SELECT id,'R20260002','STUDENT','计算机科学与工程学院','计算机科学与技术',5,96,'2028-07-01' FROM sys_user WHERE username='reader02'
+UNION ALL SELECT id,'R20260003','STUDENT','软件学院','信息安全',5,92,'2028-07-01' FROM sys_user WHERE username='reader03'
+UNION ALL SELECT id,'R20260004','STUDENT','信息科学与工程学院','人工智能',5,88,'2028-07-01' FROM sys_user WHERE username='reader04'
+UNION ALL SELECT id,'R20260005','STUDENT','自动化学院','自动化',5,95,'2028-07-01' FROM sys_user WHERE username='reader05'
+UNION ALL SELECT id,'R20260006','STUDENT','理学院','数学与应用数学',5,90,'2028-07-01' FROM sys_user WHERE username='reader06'
+UNION ALL SELECT id,'R20260007','STUDENT','文法学院','行政管理',5,86,'2028-07-01' FROM sys_user WHERE username='reader07'
+UNION ALL SELECT id,'R20260008','STUDENT','工商管理学院','工商管理',5,98,'2028-07-01' FROM sys_user WHERE username='reader08'
+UNION ALL SELECT id,'R20260009','STUDENT','机械工程与自动化学院','机械工程',5,82,'2028-07-01' FROM sys_user WHERE username='reader09'
+UNION ALL SELECT id,'R20260010','STUDENT','软件学院','软件工程',5,93,'2028-07-01' FROM sys_user WHERE username='reader10'
+UNION ALL SELECT id,'R20260011','TEACHER','计算机科学与工程学院','计算机应用技术',10,100,'2030-07-01' FROM sys_user WHERE username='reader11'
+UNION ALL SELECT id,'R20260012','STUDENT','资源与土木工程学院','土木工程',5,84,'2028-07-01' FROM sys_user WHERE username='reader12'
+UNION ALL SELECT id,'R20260013','STUDENT','外国语学院','英语',5,89,'2028-07-01' FROM sys_user WHERE username='reader13'
+UNION ALL SELECT id,'R20260014','TEACHER','软件学院','软件工程',10,99,'2030-07-01' FROM sys_user WHERE username='reader14'
+UNION ALL SELECT id,'R20260015','STUDENT','医学与生物信息工程学院','生物医学工程',5,78,'2028-07-01' FROM sys_user WHERE username='reader15'
+UNION ALL SELECT id,'R20260016','STUDENT','艺术学院','视觉传达设计',5,91,'2028-07-01' FROM sys_user WHERE username='reader16';
+
 INSERT IGNORE INTO book(
   isbn, title, category_id, publisher_id, author_name, publish_date,
   price, description, location, total_copies, available_copies, borrow_count
