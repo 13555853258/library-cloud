@@ -70,6 +70,15 @@ INSERT INTO book(isbn,title,category_id,publisher_id,author_name,publish_date,pr
 ('9787301256909','经济学原理',4,3,'N.格里高利·曼昆','2015-05-01',88.00,'经济学基础理论经典教材','D区-01-01',5,4,30),
 ('9787535732309','时间简史',5,1,'史蒂芬·霍金','2018-01-01',45.00,'通俗介绍宇宙、时间与空间理论','E区-01-01',6,5,38);
 INSERT INTO book_copy(book_id,barcode,status,shelf_location) VALUES (1,'BK000001','BORROWED','A区-01-01'),(1,'BK000002','AVAILABLE','A区-01-01'),(1,'BK000003','AVAILABLE','A区-01-01'),(2,'BK000004','AVAILABLE','A区-01-02'),(3,'BK000005','AVAILABLE','A区-02-01'),(4,'BK000006','AVAILABLE','B区-01-01');
+INSERT INTO book_copy(book_id,barcode,status,shelf_location) SELECT id,'BK000007','BORROWED','A区-02-02' FROM book WHERE isbn='9787111407010';
+INSERT INTO book_copy(book_id,barcode,status,shelf_location) SELECT id,'BK000008','AVAILABLE','A区-02-03' FROM book WHERE isbn='9787115546081';
+INSERT INTO book_copy(book_id,barcode,status,shelf_location) SELECT id,'BK000009','BORROWED','A区-03-01' FROM book WHERE isbn='9787302581208';
+INSERT INTO book_copy(book_id,barcode,status,shelf_location) SELECT id,'BK000010','AVAILABLE','B区-02-01' FROM book WHERE isbn='9787530215593';
+INSERT INTO book_copy(book_id,barcode,status,shelf_location) SELECT id,'BK000011','AVAILABLE','B区-02-02' FROM book WHERE isbn='9787532747993';
+INSERT INTO book_copy(book_id,barcode,status,shelf_location) SELECT id,'BK000012','BORROWED','C区-01-02' FROM book WHERE isbn='9787101065525';
+INSERT INTO book_copy(book_id,barcode,status,shelf_location) SELECT id,'BK000013','AVAILABLE','C区-02-01' FROM book WHERE isbn='9787301204689';
+INSERT INTO book_copy(book_id,barcode,status,shelf_location) SELECT id,'BK000014','BORROWED','D区-01-01' FROM book WHERE isbn='9787301256909';
+INSERT INTO book_copy(book_id,barcode,status,shelf_location) SELECT id,'BK000015','AVAILABLE','E区-01-01' FROM book WHERE isbn='9787535732309';
 INSERT INTO reader(user_id,reader_no,reader_type,college,major,max_borrow_count,credit_score,expire_date)
 SELECT id,'R20260001','STUDENT','软件学院','软件工程',5,100,'2028-07-01' FROM sys_user WHERE username='reader'
 UNION ALL SELECT id,'R20260002','STUDENT','计算机科学与工程学院','计算机科学与技术',5,96,'2028-07-01' FROM sys_user WHERE username='reader02'
@@ -87,6 +96,28 @@ UNION ALL SELECT id,'R20260013','STUDENT','外国语学院','英语',5,89,'2028-
 UNION ALL SELECT id,'R20260014','TEACHER','软件学院','软件工程',10,99,'2030-07-01' FROM sys_user WHERE username='reader14'
 UNION ALL SELECT id,'R20260015','STUDENT','医学与生物信息工程学院','生物医学工程',5,78,'2028-07-01' FROM sys_user WHERE username='reader15'
 UNION ALL SELECT id,'R20260016','STUDENT','艺术学院','视觉传达设计',5,91,'2028-07-01' FROM sys_user WHERE username='reader16';
+INSERT INTO borrow_record(reader_id,book_id,copy_id,borrow_time,due_time,return_time,renew_count,status,operator_id,remark)
+SELECT r.id,bc.book_id,bc.id,NOW()-INTERVAL 10 DAY,NOW()+INTERVAL 20 DAY,NULL,0,'BORROWED',1,'DEMO-BORROW-001' FROM reader r JOIN book_copy bc ON bc.barcode='BK000001' WHERE r.reader_no='R20260001';
+INSERT INTO borrow_record(reader_id,book_id,copy_id,borrow_time,due_time,return_time,renew_count,status,operator_id,remark)
+SELECT r.id,bc.book_id,bc.id,NOW()-INTERVAL 50 DAY,NOW()-INTERVAL 20 DAY,NOW()-INTERVAL 18 DAY,0,'RETURNED',1,'DEMO-BORROW-002' FROM reader r JOIN book_copy bc ON bc.barcode='BK000004' WHERE r.reader_no='R20260002';
+INSERT INTO borrow_record(reader_id,book_id,copy_id,borrow_time,due_time,return_time,renew_count,status,operator_id,remark)
+SELECT r.id,bc.book_id,bc.id,NOW()-INTERVAL 45 DAY,NOW()-INTERVAL 15 DAY,NULL,0,'BORROWED',1,'DEMO-BORROW-003' FROM reader r JOIN book_copy bc ON bc.barcode='BK000007' WHERE r.reader_no='R20260003';
+INSERT INTO borrow_record(reader_id,book_id,copy_id,borrow_time,due_time,return_time,renew_count,status,operator_id,remark)
+SELECT r.id,bc.book_id,bc.id,NOW()-INTERVAL 36 DAY,NOW()-INTERVAL 6 DAY,NOW()-INTERVAL 8 DAY,1,'RETURNED',1,'DEMO-BORROW-004' FROM reader r JOIN book_copy bc ON bc.barcode='BK000008' WHERE r.reader_no='R20260004';
+INSERT INTO borrow_record(reader_id,book_id,copy_id,borrow_time,due_time,return_time,renew_count,status,operator_id,remark)
+SELECT r.id,bc.book_id,bc.id,NOW()-INTERVAL 60 DAY,NOW()-INTERVAL 30 DAY,NOW()-INTERVAL 20 DAY,0,'OVERDUE_RETURNED',1,'DEMO-BORROW-005' FROM reader r JOIN book_copy bc ON bc.barcode='BK000010' WHERE r.reader_no='R20260005';
+INSERT INTO borrow_record(reader_id,book_id,copy_id,borrow_time,due_time,return_time,renew_count,status,operator_id,remark)
+SELECT r.id,bc.book_id,bc.id,NOW()-INTERVAL 6 DAY,NOW()+INTERVAL 24 DAY,NULL,0,'BORROWED',1,'DEMO-BORROW-006' FROM reader r JOIN book_copy bc ON bc.barcode='BK000009' WHERE r.reader_no='R20260006';
+INSERT INTO borrow_record(reader_id,book_id,copy_id,borrow_time,due_time,return_time,renew_count,status,operator_id,remark)
+SELECT r.id,bc.book_id,bc.id,NOW()-INTERVAL 25 DAY,NOW()+INTERVAL 5 DAY,NOW()-INTERVAL 3 DAY,0,'RETURNED',1,'DEMO-BORROW-007' FROM reader r JOIN book_copy bc ON bc.barcode='BK000011' WHERE r.reader_no='R20260007';
+INSERT INTO borrow_record(reader_id,book_id,copy_id,borrow_time,due_time,return_time,renew_count,status,operator_id,remark)
+SELECT r.id,bc.book_id,bc.id,NOW()-INTERVAL 12 DAY,NOW()+INTERVAL 18 DAY,NULL,1,'BORROWED',1,'DEMO-BORROW-008' FROM reader r JOIN book_copy bc ON bc.barcode='BK000012' WHERE r.reader_no='R20260008';
+INSERT INTO borrow_record(reader_id,book_id,copy_id,borrow_time,due_time,return_time,renew_count,status,operator_id,remark)
+SELECT r.id,bc.book_id,bc.id,NOW()-INTERVAL 42 DAY,NOW()-INTERVAL 12 DAY,NOW()-INTERVAL 15 DAY,0,'RETURNED',1,'DEMO-BORROW-009' FROM reader r JOIN book_copy bc ON bc.barcode='BK000013' WHERE r.reader_no='R20260009';
+INSERT INTO borrow_record(reader_id,book_id,copy_id,borrow_time,due_time,return_time,renew_count,status,operator_id,remark)
+SELECT r.id,bc.book_id,bc.id,NOW()-INTERVAL 3 DAY,NOW()+INTERVAL 27 DAY,NULL,0,'BORROWED',1,'DEMO-BORROW-010' FROM reader r JOIN book_copy bc ON bc.barcode='BK000014' WHERE r.reader_no='R20260010';
+INSERT INTO borrow_record(reader_id,book_id,copy_id,borrow_time,due_time,return_time,renew_count,status,operator_id,remark)
+SELECT r.id,bc.book_id,bc.id,NOW()-INTERVAL 32 DAY,NOW()-INTERVAL 2 DAY,NOW()-INTERVAL 4 DAY,0,'RETURNED',1,'DEMO-BORROW-011' FROM reader r JOIN book_copy bc ON bc.barcode='BK000015' WHERE r.reader_no='R20260011';
 INSERT INTO borrow_rule(reader_type,max_count,borrow_days,max_renew_count,renew_days,daily_fine) VALUES ('STUDENT',5,30,2,15,0.50),('TEACHER',10,60,3,30,0.20);
 INSERT INTO announcement(title,content,type,priority,publisher_id) VALUES ('欢迎使用智慧图书馆','系统已开放图书检索、借阅、预约和续借服务。','NOTICE',10,1),('暑假开放时间调整','暑假期间图书馆开放时间为每日9:00至17:00。','IMPORTANT',8,1);
 
