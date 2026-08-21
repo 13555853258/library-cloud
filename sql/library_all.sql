@@ -118,6 +118,26 @@ INSERT INTO borrow_record(reader_id,book_id,copy_id,borrow_time,due_time,return_
 SELECT r.id,bc.book_id,bc.id,NOW()-INTERVAL 3 DAY,NOW()+INTERVAL 27 DAY,NULL,0,'BORROWED',1,'DEMO-BORROW-010' FROM reader r JOIN book_copy bc ON bc.barcode='BK000014' WHERE r.reader_no='R20260010';
 INSERT INTO borrow_record(reader_id,book_id,copy_id,borrow_time,due_time,return_time,renew_count,status,operator_id,remark)
 SELECT r.id,bc.book_id,bc.id,NOW()-INTERVAL 32 DAY,NOW()-INTERVAL 2 DAY,NOW()-INTERVAL 4 DAY,0,'RETURNED',1,'DEMO-BORROW-011' FROM reader r JOIN book_copy bc ON bc.barcode='BK000015' WHERE r.reader_no='R20260011';
+INSERT INTO reservation(reader_id,book_id,queue_no,reserve_time,expire_time,status,notified)
+SELECT r.id,b.id,1,NOW()-INTERVAL 2 DAY,NULL,'WAITING',0 FROM reader r JOIN book b ON b.isbn='9787115428028' WHERE r.reader_no='R20260012' AND NOT EXISTS (SELECT 1 FROM reservation x WHERE x.reader_id=r.id AND x.book_id=b.id);
+INSERT INTO reservation(reader_id,book_id,queue_no,reserve_time,expire_time,status,notified)
+SELECT r.id,b.id,2,NOW()-INTERVAL 1 DAY,NULL,'WAITING',0 FROM reader r JOIN book b ON b.isbn='9787115428028' WHERE r.reader_no='R20260013' AND NOT EXISTS (SELECT 1 FROM reservation x WHERE x.reader_id=r.id AND x.book_id=b.id);
+INSERT INTO reservation(reader_id,book_id,queue_no,reserve_time,expire_time,status,notified)
+SELECT r.id,b.id,1,NOW()-INTERVAL 4 DAY,NOW()+INTERVAL 2 DAY,'AVAILABLE',1 FROM reader r JOIN book b ON b.isbn='9787544253994' WHERE r.reader_no='R20260014' AND NOT EXISTS (SELECT 1 FROM reservation x WHERE x.reader_id=r.id AND x.book_id=b.id);
+INSERT INTO reservation(reader_id,book_id,queue_no,reserve_time,expire_time,status,notified)
+SELECT r.id,b.id,1,NOW()-INTERVAL 8 DAY,NULL,'CANCELLED',0 FROM reader r JOIN book b ON b.isbn='9787302517597' WHERE r.reader_no='R20260015' AND NOT EXISTS (SELECT 1 FROM reservation x WHERE x.reader_id=r.id AND x.book_id=b.id);
+INSERT INTO reservation(reader_id,book_id,queue_no,reserve_time,expire_time,status,notified)
+SELECT r.id,b.id,1,NOW()-INTERVAL 10 DAY,NOW()-INTERVAL 1 DAY,'EXPIRED',1 FROM reader r JOIN book b ON b.isbn='9787530215593' WHERE r.reader_no='R20260016' AND NOT EXISTS (SELECT 1 FROM reservation x WHERE x.reader_id=r.id AND x.book_id=b.id);
+INSERT INTO reservation(reader_id,book_id,queue_no,reserve_time,expire_time,status,notified)
+SELECT r.id,b.id,1,NOW()-INTERVAL 3 DAY,NULL,'WAITING',0 FROM reader r JOIN book b ON b.isbn='9787111407010' WHERE r.reader_no='R20260002' AND NOT EXISTS (SELECT 1 FROM reservation x WHERE x.reader_id=r.id AND x.book_id=b.id);
+INSERT INTO reservation(reader_id,book_id,queue_no,reserve_time,expire_time,status,notified)
+SELECT r.id,b.id,1,NOW()-INTERVAL 1 DAY,NULL,'WAITING',0 FROM reader r JOIN book b ON b.isbn='9787302581208' WHERE r.reader_no='R20260004' AND NOT EXISTS (SELECT 1 FROM reservation x WHERE x.reader_id=r.id AND x.book_id=b.id);
+INSERT INTO reservation(reader_id,book_id,queue_no,reserve_time,expire_time,status,notified)
+SELECT r.id,b.id,1,NOW()-INTERVAL 5 DAY,NOW()+INTERVAL 1 DAY,'AVAILABLE',1 FROM reader r JOIN book b ON b.isbn='9787101065525' WHERE r.reader_no='R20260006' AND NOT EXISTS (SELECT 1 FROM reservation x WHERE x.reader_id=r.id AND x.book_id=b.id);
+INSERT INTO reservation(reader_id,book_id,queue_no,reserve_time,expire_time,status,notified)
+SELECT r.id,b.id,1,NOW()-INTERVAL 7 DAY,NULL,'CANCELLED',0 FROM reader r JOIN book b ON b.isbn='9787535732309' WHERE r.reader_no='R20260008' AND NOT EXISTS (SELECT 1 FROM reservation x WHERE x.reader_id=r.id AND x.book_id=b.id);
+INSERT INTO reservation(reader_id,book_id,queue_no,reserve_time,expire_time,status,notified)
+SELECT r.id,b.id,1,NOW()-INTERVAL 2 DAY,NULL,'WAITING',0 FROM reader r JOIN book b ON b.isbn='9787301256909' WHERE r.reader_no='R20260010' AND NOT EXISTS (SELECT 1 FROM reservation x WHERE x.reader_id=r.id AND x.book_id=b.id);
 INSERT INTO borrow_rule(reader_type,max_count,borrow_days,max_renew_count,renew_days,daily_fine) VALUES ('STUDENT',5,30,2,15,0.50),('TEACHER',10,60,3,30,0.20);
 INSERT INTO announcement(title,content,type,priority,publisher_id) VALUES ('欢迎使用智慧图书馆','系统已开放图书检索、借阅、预约和续借服务。','NOTICE',10,1),('暑假开放时间调整','暑假期间图书馆开放时间为每日9:00至17:00。','IMPORTANT',8,1);
 
