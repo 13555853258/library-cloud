@@ -56,3 +56,36 @@ INSERT IGNORE INTO book(
 ('9787301204689','全球通史',3,3,'斯塔夫里阿诺斯','2012-02-01',96.00,'从全球视角讲述人类文明进程','C区-02-01',4,4,25),
 ('9787301256909','经济学原理',4,3,'N.格里高利·曼昆','2015-05-01',88.00,'经济学基础理论经典教材','D区-01-01',5,4,30),
 ('9787535732309','时间简史',5,1,'史蒂芬·霍金','2018-01-01',45.00,'通俗介绍宇宙、时间与空间理论','E区-01-01',6,5,38);
+
+INSERT IGNORE INTO book_copy(book_id,barcode,status,shelf_location) SELECT id,'BK000007','BORROWED','A区-02-02' FROM book WHERE isbn='9787111407010';
+INSERT IGNORE INTO book_copy(book_id,barcode,status,shelf_location) SELECT id,'BK000008','AVAILABLE','A区-02-03' FROM book WHERE isbn='9787115546081';
+INSERT IGNORE INTO book_copy(book_id,barcode,status,shelf_location) SELECT id,'BK000009','BORROWED','A区-03-01' FROM book WHERE isbn='9787302581208';
+INSERT IGNORE INTO book_copy(book_id,barcode,status,shelf_location) SELECT id,'BK000010','AVAILABLE','B区-02-01' FROM book WHERE isbn='9787530215593';
+INSERT IGNORE INTO book_copy(book_id,barcode,status,shelf_location) SELECT id,'BK000011','AVAILABLE','B区-02-02' FROM book WHERE isbn='9787532747993';
+INSERT IGNORE INTO book_copy(book_id,barcode,status,shelf_location) SELECT id,'BK000012','BORROWED','C区-01-02' FROM book WHERE isbn='9787101065525';
+INSERT IGNORE INTO book_copy(book_id,barcode,status,shelf_location) SELECT id,'BK000013','AVAILABLE','C区-02-01' FROM book WHERE isbn='9787301204689';
+INSERT IGNORE INTO book_copy(book_id,barcode,status,shelf_location) SELECT id,'BK000014','BORROWED','D区-01-01' FROM book WHERE isbn='9787301256909';
+INSERT IGNORE INTO book_copy(book_id,barcode,status,shelf_location) SELECT id,'BK000015','AVAILABLE','E区-01-01' FROM book WHERE isbn='9787535732309';
+
+INSERT INTO borrow_record(reader_id,book_id,copy_id,borrow_time,due_time,return_time,renew_count,status,operator_id,remark)
+SELECT r.id,bc.book_id,bc.id,NOW()-INTERVAL 10 DAY,NOW()+INTERVAL 20 DAY,NULL,0,'BORROWED',1,'DEMO-BORROW-001' FROM reader r JOIN book_copy bc ON bc.barcode='BK000001' WHERE r.reader_no='R20260001' AND NOT EXISTS (SELECT 1 FROM borrow_record WHERE remark='DEMO-BORROW-001');
+INSERT INTO borrow_record(reader_id,book_id,copy_id,borrow_time,due_time,return_time,renew_count,status,operator_id,remark)
+SELECT r.id,bc.book_id,bc.id,NOW()-INTERVAL 50 DAY,NOW()-INTERVAL 20 DAY,NOW()-INTERVAL 18 DAY,0,'RETURNED',1,'DEMO-BORROW-002' FROM reader r JOIN book_copy bc ON bc.barcode='BK000004' WHERE r.reader_no='R20260002' AND NOT EXISTS (SELECT 1 FROM borrow_record WHERE remark='DEMO-BORROW-002');
+INSERT INTO borrow_record(reader_id,book_id,copy_id,borrow_time,due_time,return_time,renew_count,status,operator_id,remark)
+SELECT r.id,bc.book_id,bc.id,NOW()-INTERVAL 45 DAY,NOW()-INTERVAL 15 DAY,NULL,0,'BORROWED',1,'DEMO-BORROW-003' FROM reader r JOIN book_copy bc ON bc.barcode='BK000007' WHERE r.reader_no='R20260003' AND NOT EXISTS (SELECT 1 FROM borrow_record WHERE remark='DEMO-BORROW-003');
+INSERT INTO borrow_record(reader_id,book_id,copy_id,borrow_time,due_time,return_time,renew_count,status,operator_id,remark)
+SELECT r.id,bc.book_id,bc.id,NOW()-INTERVAL 36 DAY,NOW()-INTERVAL 6 DAY,NOW()-INTERVAL 8 DAY,1,'RETURNED',1,'DEMO-BORROW-004' FROM reader r JOIN book_copy bc ON bc.barcode='BK000008' WHERE r.reader_no='R20260004' AND NOT EXISTS (SELECT 1 FROM borrow_record WHERE remark='DEMO-BORROW-004');
+INSERT INTO borrow_record(reader_id,book_id,copy_id,borrow_time,due_time,return_time,renew_count,status,operator_id,remark)
+SELECT r.id,bc.book_id,bc.id,NOW()-INTERVAL 60 DAY,NOW()-INTERVAL 30 DAY,NOW()-INTERVAL 20 DAY,0,'OVERDUE_RETURNED',1,'DEMO-BORROW-005' FROM reader r JOIN book_copy bc ON bc.barcode='BK000010' WHERE r.reader_no='R20260005' AND NOT EXISTS (SELECT 1 FROM borrow_record WHERE remark='DEMO-BORROW-005');
+INSERT INTO borrow_record(reader_id,book_id,copy_id,borrow_time,due_time,return_time,renew_count,status,operator_id,remark)
+SELECT r.id,bc.book_id,bc.id,NOW()-INTERVAL 6 DAY,NOW()+INTERVAL 24 DAY,NULL,0,'BORROWED',1,'DEMO-BORROW-006' FROM reader r JOIN book_copy bc ON bc.barcode='BK000009' WHERE r.reader_no='R20260006' AND NOT EXISTS (SELECT 1 FROM borrow_record WHERE remark='DEMO-BORROW-006');
+INSERT INTO borrow_record(reader_id,book_id,copy_id,borrow_time,due_time,return_time,renew_count,status,operator_id,remark)
+SELECT r.id,bc.book_id,bc.id,NOW()-INTERVAL 25 DAY,NOW()+INTERVAL 5 DAY,NOW()-INTERVAL 3 DAY,0,'RETURNED',1,'DEMO-BORROW-007' FROM reader r JOIN book_copy bc ON bc.barcode='BK000011' WHERE r.reader_no='R20260007' AND NOT EXISTS (SELECT 1 FROM borrow_record WHERE remark='DEMO-BORROW-007');
+INSERT INTO borrow_record(reader_id,book_id,copy_id,borrow_time,due_time,return_time,renew_count,status,operator_id,remark)
+SELECT r.id,bc.book_id,bc.id,NOW()-INTERVAL 12 DAY,NOW()+INTERVAL 18 DAY,NULL,1,'BORROWED',1,'DEMO-BORROW-008' FROM reader r JOIN book_copy bc ON bc.barcode='BK000012' WHERE r.reader_no='R20260008' AND NOT EXISTS (SELECT 1 FROM borrow_record WHERE remark='DEMO-BORROW-008');
+INSERT INTO borrow_record(reader_id,book_id,copy_id,borrow_time,due_time,return_time,renew_count,status,operator_id,remark)
+SELECT r.id,bc.book_id,bc.id,NOW()-INTERVAL 42 DAY,NOW()-INTERVAL 12 DAY,NOW()-INTERVAL 15 DAY,0,'RETURNED',1,'DEMO-BORROW-009' FROM reader r JOIN book_copy bc ON bc.barcode='BK000013' WHERE r.reader_no='R20260009' AND NOT EXISTS (SELECT 1 FROM borrow_record WHERE remark='DEMO-BORROW-009');
+INSERT INTO borrow_record(reader_id,book_id,copy_id,borrow_time,due_time,return_time,renew_count,status,operator_id,remark)
+SELECT r.id,bc.book_id,bc.id,NOW()-INTERVAL 3 DAY,NOW()+INTERVAL 27 DAY,NULL,0,'BORROWED',1,'DEMO-BORROW-010' FROM reader r JOIN book_copy bc ON bc.barcode='BK000014' WHERE r.reader_no='R20260010' AND NOT EXISTS (SELECT 1 FROM borrow_record WHERE remark='DEMO-BORROW-010');
+INSERT INTO borrow_record(reader_id,book_id,copy_id,borrow_time,due_time,return_time,renew_count,status,operator_id,remark)
+SELECT r.id,bc.book_id,bc.id,NOW()-INTERVAL 32 DAY,NOW()-INTERVAL 2 DAY,NOW()-INTERVAL 4 DAY,0,'RETURNED',1,'DEMO-BORROW-011' FROM reader r JOIN book_copy bc ON bc.barcode='BK000015' WHERE r.reader_no='R20260011' AND NOT EXISTS (SELECT 1 FROM borrow_record WHERE remark='DEMO-BORROW-011');
