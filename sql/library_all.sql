@@ -35,7 +35,22 @@ CREATE TABLE operation_log (id BIGINT PRIMARY KEY AUTO_INCREMENT, user_id BIGINT
 INSERT INTO sys_user(username,password,real_name,phone,email,role_code) VALUES
 ('admin','Admin@123','系统管理员','13800000001','admin@library.com','ADMIN'),
 ('librarian','Library@123','图书管理员','13800000002','librarian@library.com','LIBRARIAN'),
-('reader','Reader@123','高思晗','13800000003','reader@library.com','READER');
+('reader','Reader@123','高思晗','13800000003','reader@library.com','READER'),
+('reader02','Reader@123','李明','13800000004','reader02@library.com','READER'),
+('reader03','Reader@123','王芳','13800000005','reader03@library.com','READER'),
+('reader04','Reader@123','张伟','13800000006','reader04@library.com','READER'),
+('reader05','Reader@123','刘洋','13800000007','reader05@library.com','READER'),
+('reader06','Reader@123','陈晨','13800000008','reader06@library.com','READER'),
+('reader07','Reader@123','赵敏','13800000009','reader07@library.com','READER'),
+('reader08','Reader@123','周杰','13800000010','reader08@library.com','READER'),
+('reader09','Reader@123','孙悦','13800000011','reader09@library.com','READER'),
+('reader10','Reader@123','吴桐','13800000012','reader10@library.com','READER'),
+('reader11','Reader@123','郑欣','13800000013','reader11@library.com','READER'),
+('reader12','Reader@123','冯宇','13800000014','reader12@library.com','READER'),
+('reader13','Reader@123','褚涵','13800000015','reader13@library.com','READER'),
+('reader14','Reader@123','蒋宁','13800000016','reader14@library.com','READER'),
+('reader15','Reader@123','沈佳','13800000017','reader15@library.com','READER'),
+('reader16','Reader@123','韩雪','13800000018','reader16@library.com','READER');
 INSERT INTO book_category(name,code,sort_no) VALUES ('计算机科学','CS',1),('文学小说','LITERATURE',2),('历史文化','HISTORY',3),('经济管理','ECONOMY',4),('自然科学','SCIENCE',5);
 INSERT INTO publisher(name,address,contact_phone) VALUES ('人民邮电出版社','北京市丰台区','010-81055000'),('机械工业出版社','北京市西城区','010-88379000'),('清华大学出版社','北京市海淀区','010-62770175');
 INSERT INTO book(isbn,title,category_id,publisher_id,author_name,publish_date,price,description,location,total_copies,available_copies,borrow_count) VALUES
@@ -55,7 +70,23 @@ INSERT INTO book(isbn,title,category_id,publisher_id,author_name,publish_date,pr
 ('9787301256909','经济学原理',4,3,'N.格里高利·曼昆','2015-05-01',88.00,'经济学基础理论经典教材','D区-01-01',5,4,30),
 ('9787535732309','时间简史',5,1,'史蒂芬·霍金','2018-01-01',45.00,'通俗介绍宇宙、时间与空间理论','E区-01-01',6,5,38);
 INSERT INTO book_copy(book_id,barcode,status,shelf_location) VALUES (1,'BK000001','BORROWED','A区-01-01'),(1,'BK000002','AVAILABLE','A区-01-01'),(1,'BK000003','AVAILABLE','A区-01-01'),(2,'BK000004','AVAILABLE','A区-01-02'),(3,'BK000005','AVAILABLE','A区-02-01'),(4,'BK000006','AVAILABLE','B区-01-01');
-INSERT INTO reader(user_id,reader_no,reader_type,college,major,max_borrow_count,credit_score,expire_date) VALUES (3,'R20260001','STUDENT','软件学院','软件工程',5,100,'2028-07-01');
+INSERT INTO reader(user_id,reader_no,reader_type,college,major,max_borrow_count,credit_score,expire_date)
+SELECT id,'R20260001','STUDENT','软件学院','软件工程',5,100,'2028-07-01' FROM sys_user WHERE username='reader'
+UNION ALL SELECT id,'R20260002','STUDENT','计算机科学与工程学院','计算机科学与技术',5,96,'2028-07-01' FROM sys_user WHERE username='reader02'
+UNION ALL SELECT id,'R20260003','STUDENT','软件学院','信息安全',5,92,'2028-07-01' FROM sys_user WHERE username='reader03'
+UNION ALL SELECT id,'R20260004','STUDENT','信息科学与工程学院','人工智能',5,88,'2028-07-01' FROM sys_user WHERE username='reader04'
+UNION ALL SELECT id,'R20260005','STUDENT','自动化学院','自动化',5,95,'2028-07-01' FROM sys_user WHERE username='reader05'
+UNION ALL SELECT id,'R20260006','STUDENT','理学院','数学与应用数学',5,90,'2028-07-01' FROM sys_user WHERE username='reader06'
+UNION ALL SELECT id,'R20260007','STUDENT','文法学院','行政管理',5,86,'2028-07-01' FROM sys_user WHERE username='reader07'
+UNION ALL SELECT id,'R20260008','STUDENT','工商管理学院','工商管理',5,98,'2028-07-01' FROM sys_user WHERE username='reader08'
+UNION ALL SELECT id,'R20260009','STUDENT','机械工程与自动化学院','机械工程',5,82,'2028-07-01' FROM sys_user WHERE username='reader09'
+UNION ALL SELECT id,'R20260010','STUDENT','软件学院','软件工程',5,93,'2028-07-01' FROM sys_user WHERE username='reader10'
+UNION ALL SELECT id,'R20260011','TEACHER','计算机科学与工程学院','计算机应用技术',10,100,'2030-07-01' FROM sys_user WHERE username='reader11'
+UNION ALL SELECT id,'R20260012','STUDENT','资源与土木工程学院','土木工程',5,84,'2028-07-01' FROM sys_user WHERE username='reader12'
+UNION ALL SELECT id,'R20260013','STUDENT','外国语学院','英语',5,89,'2028-07-01' FROM sys_user WHERE username='reader13'
+UNION ALL SELECT id,'R20260014','TEACHER','软件学院','软件工程',10,99,'2030-07-01' FROM sys_user WHERE username='reader14'
+UNION ALL SELECT id,'R20260015','STUDENT','医学与生物信息工程学院','生物医学工程',5,78,'2028-07-01' FROM sys_user WHERE username='reader15'
+UNION ALL SELECT id,'R20260016','STUDENT','艺术学院','视觉传达设计',5,91,'2028-07-01' FROM sys_user WHERE username='reader16';
 INSERT INTO borrow_rule(reader_type,max_count,borrow_days,max_renew_count,renew_days,daily_fine) VALUES ('STUDENT',5,30,2,15,0.50),('TEACHER',10,60,3,30,0.20);
 INSERT INTO announcement(title,content,type,priority,publisher_id) VALUES ('欢迎使用智慧图书馆','系统已开放图书检索、借阅、预约和续借服务。','NOTICE',10,1),('暑假开放时间调整','暑假期间图书馆开放时间为每日9:00至17:00。','IMPORTANT',8,1);
 
